@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | Downtown Donuts</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+
+    <header>
+        <nav aria-label="Main Navigation">
+            <div class="logo">
+                <h1>Downtown Donuts</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/menu.html">Menu</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/comments.html">Comments</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="comments-container">
+        <section aria-labelledby="comments-heading">
+            <h2 id="comments-heading" class="brand-title">Community Board</h2>
+            <p>Leave a review or tell us about your favorite donut!</p>
+
+            <div id="error-message" style="color: red; display: none; margin-bottom: 1rem; font-weight: bold;"></div>
+
+            <form id="comment-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="text">Your Comment:</label>
+                    <textarea id="text" name="text" rows="4" required></textarea>
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn">Post Comment</button>
+            </form>
+
+            <hr style="margin: 2rem 0;">
+
+            <div id="comments-list">
+                <p>Loading comments...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Downtown Donuts. All rights reserved.</p>
+    </footer>
+
+    <script src="/javascripts/comments.js"></script>
+</body>
+</html>
