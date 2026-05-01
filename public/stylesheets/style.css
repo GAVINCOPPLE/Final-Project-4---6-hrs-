@@ -1,36 +1,37 @@
-/* Importing the required brand fonts */
+/* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:wght@400;700&display=swap');
 
-/* Global settings to keep things consistent */
+/* Reset */
 * {
   box-sizing: border-box;
-}
-
-body {
-  font-family: 'Montserrat', sans-serif; /* Per guidelines  */
   margin: 0;
-  background-color: #F7F7F7; /* Seasalt*/
-  color: #000000; /* Required black text on light bg  */
+  padding: 0;
 }
 
-/* Flexbox Nav - No frameworks used */
+/* Body */
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #F7F7F7;
+  color: #000;
+}
+
+/* Nav */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #10291D; /* Dark Green  */
+  background-color: #10291D;
   padding: 10px 5%;
-  border-bottom: 4px solid #F7C64A; /* Saffron divider  */
+  border-bottom: 3px solid #F7C64A;
 }
 
 .nav-logo {
-  height: 60px;
-  width: auto;
+  height: 140px; /*updated size*/
 }
 
 .nav-links {
   display: flex;
-  list-style: none; /* Manually remove bullets */
+  list-style: none;
   gap: 20px;
 }
 
@@ -40,10 +41,88 @@ nav {
   font-weight: bold;
 }
 
-/* Hand-written media query for mobile  */
+.nav-links a:hover {
+  color: #F7C64A;
+}
+
+/* Main */
+main {
+  padding: 30px 10%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #10291D;
+}
+
+h3 {
+  margin-top: 30px;
+  border-bottom: 2px solid #F7C64A;
+}
+
+/* Menu items */
+.menu-item {
+  background-color: white;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+/* Sections */
+section {
+  margin-bottom: 30px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #10291D;
+  color: #F7F7F7;
+  margin-top: 30px;
+}
+
+/* Mobile */
 @media (max-width: 768px) {
+
+  /* Keep flexbox, just stack it */
   nav {
     flex-direction: column;
+    align-items: center;
+  }
+
+  /* Logo adjustment */
+  .nav-logo {
+    height: 90px;
+    margin-bottom: 10px;
+  }
+
+  /* column instead of row */
+  .nav-links {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
     text-align: center;
   }
+
+  
+  main {
+    padding: 20px;
+  }
+
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+  }
+
+  /* Menu readability improvement */
+  .menu-item {
+    padding: 10px;
+  }
+
 }
