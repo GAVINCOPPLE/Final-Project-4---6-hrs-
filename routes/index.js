@@ -1,56 +1,56 @@
 var express = require('express');
 var router = express.Router();
+const path = require('path');
 
-/* GET home page. */
-router.get('/', function(req, res, next){
-  try {
-    req.db.query('SELECT * FROM todos;', (err, results) => {
-      if (err) {
-        console.error('Error fetching todos:', err);
-        return res.status(500).send('Error fetching todos');
-      }
-      res.render('index', { title: 'My Simple TODO', todos: results });
-    });
-  } catch (error) {
-    console.error('Error fetching items:', error);
-    res.status(500).send('Error fetching items');
+// SERVE HTML PAGES 
+router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+router.get('/menu', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/menu.html'));
+});
+
+router.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/about.html'));
+});
+
+router.get('/comments', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/comments.html'));
+});
+
+// COMMENTS SYSTEM 
+
+// store comments 
+let comments = [];
+
+// GET comments (last 10)
+router.get('/api/comments', (req, res) => {
+  res.json(comments.slice(-10));
+});
+
+// POST comment
+router.post('/api/comments', (req, res) => {
+  const { name, text } = req.body;
+
+  // validation 
+  if (!name || !text || text.trim() === '') {
+    return res.status(400).json({ error: 'Comment cannot be empty' });
   }
-});
 
-router.post('/create', function (req, res, next) {
-    const { task } = req.body;
-    try {
-      req.db.query('INSERT INTO todos (task) VALUES (?);', [task], (err, results) => {
-        if (err) {
-          console.error('Error adding todo:', err);
-          return res.status(500).send('Error adding todo');
-        }
-        console.log('Todo added successfully:', results);
-        // Redirect to the home page after adding
-        res.redirect('/');
-      });
-    } catch (error) {
-      console.error('Error adding todo:', error);
-      res.status(500).send('Error adding todo');
-    }
-});
+  if (text.length > 500) {
+    return res.status(400).json({ error: 'Comment too long' });
+  }
 
-router.post('/delete', function (req, res, next) {
-    const { id } = req.body;
-    try {
-      req.db.query('DELETE FROM todos WHERE id = ?;', [id], (err, results) => {
-        if (err) {
-          console.error('Error deleting todo:', err);
-          return res.status(500).send('Error deleting todo');
-        }
-        console.log('Todo deleted successfully:', results);
-        // Redirect to the home page after deletion
-        res.redirect('/');
-    });
-    }catch (error) {
-        console.error('Error deleting todo:', error);
-        res.status(500).send('Error deleting todo:');
-    }
+  const newComment = {
+    name,
+    text,
+    timestamp: new Date()
+  };
+
+  comments.push(newComment);
+
+  res.json({ success: true });
 });
 
 module.exports = router;

@@ -16,7 +16,6 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(dbMiddleware);
 app.use('/', indexRouter);
 app.use(express.static('public'));
 //add more routes here

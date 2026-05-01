@@ -6,7 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "http-errors": "2.0.0",
     "mysql2": "^3.14.2",
     "pug": "3.0.3"

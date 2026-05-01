@@ -1,8 +1,49 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Importing the required brand fonts */
+@import url('https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:wght@400;700&display=swap');
+
+/* Global settings to keep things consistent */
+* {
+  box-sizing: border-box;
 }
 
-a {
-  color: #00B7FF;
+body {
+  font-family: 'Montserrat', sans-serif; /* Per guidelines  */
+  margin: 0;
+  background-color: #F7F7F7; /* Seasalt*/
+  color: #000000; /* Required black text on light bg  */
+}
+
+/* Flexbox Nav - No frameworks used */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #10291D; /* Dark Green  */
+  padding: 10px 5%;
+  border-bottom: 4px solid #F7C64A; /* Saffron divider  */
+}
+
+.nav-logo {
+  height: 60px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none; /* Manually remove bullets */
+  gap: 20px;
+}
+
+.nav-links a {
+  color: #F7F7F7;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Hand-written media query for mobile  */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    text-align: center;
+  }
 }
