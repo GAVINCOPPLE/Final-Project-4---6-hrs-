@@ -24,9 +24,19 @@ router.get('/comments', (req, res) => {
 // store comments 
 let comments = [];
 
-// GET comments (last 10)
+// GET comments with pagination
 router.get('/api/comments', (req, res) => {
-  res.json(comments.slice(-10));
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10;
+
+  const reversed = [...comments].reverse();
+
+  const start = (page - 1) * limit;
+  const end = start + limit;
+
+  const paginatedComments = reversed.slice(start, end);
+
+  res.json(paginatedComments);
 });
 
 // POST comment

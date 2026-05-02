@@ -82,6 +82,38 @@ footer {
   color: #F7F7F7;
   margin-top: 30px;
 }
+  .home-content {
+  max-width: 700px;
+  margin: 40px auto;
+  text-align: center;
+ }
+
+ .home-content h3 {
+  color: #10291D;
+  margin-bottom: 10px;
+ }
+
+ .home-content p {
+  margin-top: 15px;
+  line-height: 1.6;
+ }
+
+ .hero-subtext {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.hero {
+  text-align: center;
+}
+
+.hero p {
+  text-align: center;
+}
+
+
+
+
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -124,5 +156,14 @@ footer {
   .menu-item {
     padding: 10px;
   }
+
+  #error-message {
+  color: red;
+  display: none;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  }
+
+
 
 }
