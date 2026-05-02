@@ -1,57 +1,79 @@
-// Grab our HTML elements
+// Grab elements
 const form = document.getElementById('comment-form');
 const submitBtn = document.getElementById('submit-btn');
 const commentsList = document.getElementById('comments-list');
 const errorDiv = document.getElementById('error-message');
 
-// Fetch comments from our Express backend
-async function loadComments() {
+let currentPage = 1;
+
+// LOAD COMMENTS (WITH PAGINATION)
+async function loadComments(page = 1) {
+    currentPage = page;
+
     try {
-        const response = await fetch('/api/comments');
-        
-        // Edge Case: Server is down or unreachable
+        const response = await fetch(`/api/comments?page=${page}`);
+
         if (!response.ok) throw new Error('Server unreachable');
-        
+
         const comments = await response.json();
-        
-        // Handle empty database
+
         if (comments.length === 0) {
             commentsList.innerHTML = '<p>No comments yet. Be the first!</p>';
             return;
         }
 
-        // Build HTML for each comment (reverse puts newest at the top)
+        // Render comments
         commentsList.innerHTML = comments.map(comment => `
-            <article class="comment" style="background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 4px; border: 1px solid #ccc;">
+            <article class="comment">
                 <strong>${comment.name}</strong> 
-                <span class="timestamp" style="color: #666; font-size: 0.85rem;">- ${new Date(comment.timestamp).toLocaleString()}</span>
-                <p style="margin-top: 0.5rem;">${comment.text}</p>
+                <span class="timestamp">- ${new Date(comment.timestamp).toLocaleString()}</span>
+                <p>${comment.text}</p>
             </article>
-        `).reverse().join(''); 
-        
+        `).join('');
+
+        // Pagination buttons
+        document.getElementById('pagination').innerHTML = `
+            <button onclick="loadComments(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Prev</button>
+            <button onclick="loadComments(${currentPage + 1})">Next</button>
+        `;
+
     } catch (err) {
-        // Show a friendly error instead of breaking the UI
-        commentsList.innerHTML = '<p style="color: red;">Oops! Trouble loading comments right now. Please try again later.</p>';
+        commentsList.innerHTML = '<p style="color:red;">Error loading comments.</p>';
     }
 }
 
-// Handle new comment submission
+
+// SUBMIT COMMENT
 form.addEventListener('submit', async (e) => {
-    e.preventDefault(); 
-    
-    // Edge Case: Disable button to prevent spam/double-clicks
+    e.preventDefault();
+
     submitBtn.disabled = true;
     submitBtn.innerText = 'Posting...';
     errorDiv.style.display = 'none';
 
-    // Package the user's input
     const payload = {
-        name: document.getElementById('name').value,
-        text: document.getElementById('text').value
+        name: document.getElementById('name').value.trim(),
+        text: document.getElementById('text').value.trim()
     };
 
+    // Validation
+    if (!payload.name || !payload.text) {
+        errorDiv.innerText = 'Fields cannot be empty';
+        errorDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Post Comment';
+        return;
+    }
+
+    if (payload.text.length > 500) {
+        errorDiv.innerText = 'Comment too long (max 500 characters)';
+        errorDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Post Comment';
+        return;
+    }
+
     try {
-        // Send to backend
         const response = await fetch('/api/comments', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -60,21 +82,17 @@ form.addEventListener('submit', async (e) => {
 
         const data = await response.json();
 
-        // Check if backend validation failed (e.g., too long)
         if (!response.ok) {
             throw new Error(data.error || 'Server error.');
         }
 
-        // Success: Clear form and reload comments
         form.reset();
-        loadComments();
+        loadComments(currentPage);
 
     } catch (err) {
-        // Display backend errors to the user
         errorDiv.innerText = err.message;
         errorDiv.style.display = 'block';
     } finally {
-        // Always turn the button back on
         submitBtn.disabled = false;
         submitBtn.innerText = 'Post Comment';
     }
