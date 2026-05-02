@@ -70,7 +70,7 @@ When a user submits a comment:
 
 1. The form is handled in the browser using JavaScript
 2. A POST request is sent to `/api/comments`
-3. The server validates the input completing the checks of empty inputs and character limit.
+3. The server validates the input completing the checks of empty inputs and enforcing character limit
 4. A timestamp is created on the server
 5. The comment is stored in memory
 6. The client reloads comments using a GET request
